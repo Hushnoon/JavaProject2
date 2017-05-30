@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User getUser(int id) {
+	public User getUserById(int id) {
 		// TODO Auto-generated method stub
 		return sessionFactory.getCurrentSession().get(User.class, Integer.valueOf(id));
 	}
@@ -66,12 +66,30 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUserByUsername(String name) {
-		Query q = sessionFactory.getCurrentSession().createQuery("From User where email=:email");
-		q.setParameter("email", name);
+		Query q = sessionFactory.getCurrentSession().createQuery("From User where userName=:userName");
+		q.setParameter("userName", name);
 		User user = (User) q.getSingleResult();
 
 		return user;
 
+	}
+
+	@Override
+	public boolean userAuthenticate(String username, String password) {
+		User user=getUserByUsername(username);
+		boolean result=false;
+		if(user!=null)
+		{
+			if(password.equals(user.getPassword()))
+			{
+				result=true;
+			}
+			else
+			{
+				result=false;
+			}
+		}
+		return result;
 	}
 
 }

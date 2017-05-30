@@ -7,7 +7,7 @@ import com.ali.onlinecollaborationbackend.model.User;;
 public interface UserDao {
 	List<User> listUsers();
 
-	User getUser(int id);
+	User getUserById(int id);
 
 	boolean add(User user);
 
@@ -16,4 +16,6 @@ public interface UserDao {
 	boolean delete(User user);
 
 	User getUserByUsername(String name);
+	
+	boolean userAuthenticate(String username,String password);
 }

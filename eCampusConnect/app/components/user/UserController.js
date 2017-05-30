@@ -54,6 +54,7 @@ UserModule.controller('UserController', ['UserService','$scope','$location', fun
 		me.updateShow=false;
 		me.selectedUser.userId=user.userId;
 		me.selectedUser.fullName=user.fullName;
+		me.selectedUser.userName=user.userName;
 		me.selectedUser.email=user.email;
 		me.selectedUser.role=user.role;
 	}

@@ -16,9 +16,27 @@ public class User {
 	private int userId;
 	private String fullName;
 	@Column(unique=true)
+	private String userName;
+	
+	@Column(unique=true)
 	private String email;
 	private String password;
 	private String role;
+	private char isOnline;
+	private char status;
+	
+	public char getIsOnline() {
+		return isOnline;
+	}
+	public void setIsOnline(char isOnline) {
+		this.isOnline = isOnline;
+	}
+	public char getStatus() {
+		return status;
+	}
+	public void setStatus(char status) {
+		this.status = status;
+	}
 	public int getUserId() {
 		return userId;
 	}
@@ -30,6 +48,12 @@ public class User {
 	}
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getEmail() {
 		return email;

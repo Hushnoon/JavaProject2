@@ -21,10 +21,18 @@ public class UserController {
 
 	@Autowired
 	UserDao userDao;
-
+	
+	@GetMapping("/")
+	public String index()
+	{
+		return "index";
+	}
+	
 	// -------CREATE A USER
 	@PostMapping("/addUser")
 	public ResponseEntity<User> addUser(@RequestBody User user) {
+		user.setStatus('y');
+		user.setIsOnline('n');
 		userDao.add(user);
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
@@ -39,38 +47,46 @@ public class UserController {
 	// --------Retreive A SINGLE USER BY ID
 	@GetMapping("/user/{id}")
 	public ResponseEntity<User> singleUser(@PathVariable("id") int id) {
-		User user = userDao.getUser(id);
+		User user = userDao.getUserById(id);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 	// --------Update A SINGLE USER BY ID
 	@PutMapping("/user/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody User user) {
-		User currentUser = userDao.getUser(id);
+		User currentUser = userDao.getUserById(id);
 		if (currentUser == null) {
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		} else {
 			currentUser.setFullName(user.getFullName());
+			currentUser.setUserName(user.getUserName());
 			currentUser.setEmail(user.getEmail());
 			userDao.update(currentUser);
 			return new ResponseEntity<User>(currentUser, HttpStatus.OK);
 		}
 	}
-	
-	//---------Delete A Single by user
-	@DeleteMapping("/user/{id}") 
-	public ResponseEntity<User> deleteUser(@PathVariable("id") int id)
-	{
-		User currentUser = userDao.getUser(id);
+
+	// ---------Delete A Single by user
+	@DeleteMapping("/user/{id}")
+	public ResponseEntity<User> deleteUser(@PathVariable("id") int id) {
+		User currentUser = userDao.getUserById(id);
 		if (currentUser == null) {
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		} else {
-			
+
 			userDao.delete(currentUser);
 			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 		}
-		
-		
+
 	}
 
+	// ----------Authenticate a User
+	@PostMapping("/user/validate")
+	public ResponseEntity<User> authenticate(@RequestBody User user) {
+		if (userDao.userAuthenticate(user.getUserName(),user.getPassword())) {
+			user=userDao.getUserByUsername(user.getUserName());
+			return new ResponseEntity<User>(user,HttpStatus.OK);
+		}
+		return new ResponseEntity<User>(user,HttpStatus.NOT_FOUND);
+	}
 }
