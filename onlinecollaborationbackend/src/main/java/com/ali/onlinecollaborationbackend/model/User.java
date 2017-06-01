@@ -25,6 +25,7 @@ public class User {
 	private char isOnline;
 	private char status;
 	
+	
 	public char getIsOnline() {
 		return isOnline;
 	}

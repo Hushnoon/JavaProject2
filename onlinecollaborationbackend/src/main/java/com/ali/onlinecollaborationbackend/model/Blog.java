@@ -1,18 +1,22 @@
 package com.ali.onlinecollaborationbackend.model;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(schema="HUSH")
@@ -30,9 +34,14 @@ public class Blog {
 	private int likes;
 	@Column(name="visited")
 	private int views;
-	@JsonBackReference
+	
 	@ManyToOne(cascade=CascadeType.ALL)
+	@JsonBackReference(value="bloguser-movement")
 	private User user;
+	@OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy = "blog")
+	@JsonBackReference(value="BlogAndComment-movement")
+	private Set<BlogComment> blogComments=new HashSet<BlogComment>() ;
+	
 	public int getBlogId() {
 		return blogId;
 	}
@@ -88,5 +97,10 @@ public class Blog {
 	public void setPostDate(LocalDate postDate) {
 		this.postDate = postDate;
 	}
-	
+	public Set<BlogComment> getBlogComments() {
+		return blogComments;
+	}
+	public void setBlogComments(Set<BlogComment> blogComments) {
+		this.blogComments = blogComments;
+	}
 }
