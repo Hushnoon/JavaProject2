@@ -36,10 +36,10 @@ public class Blog {
 	private int views;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JsonBackReference(value="bloguser-movement")
 	private User user;
+	
 	@OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy = "blog")
-	@JsonBackReference(value="BlogAndComment-movement")
+	@JsonManagedReference(value="BlogAndComment-movement")
 	private Set<BlogComment> blogComments=new HashSet<BlogComment>() ;
 	
 	public int getBlogId() {

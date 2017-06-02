@@ -20,10 +20,9 @@ public class BlogComment {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private int blogCommentId;
 	@ManyToOne(cascade=CascadeType.PERSIST)
-	@JsonManagedReference(value="BlogAndComment-movement")
+	@JsonBackReference(value="BlogAndComment-movement")
 	private Blog blog;
 	@ManyToOne(cascade=CascadeType.PERSIST)
-	@JsonManagedReference(value="UserAndComment-movement")
 	private User user;
 	private String comments;
 	private LocalDate commentDate;

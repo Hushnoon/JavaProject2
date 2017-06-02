@@ -83,9 +83,9 @@ public class BlogController {
 	@PostMapping("/blog/add/comment")
 	public ResponseEntity<Void> addComment(@RequestBody BlogComment blogComment) {
 		Blog blog=blogDao.getById(blogComment.getBlog().getBlogId());
-		User user=userDao.getUserById(blogComment.getUser().getUserId());
+		//User user=userDao.getUserById(blogComment.getUser().getUserId());
 		blogComment.setBlog(blog);
-		blogComment.setUser(user);
+		//blogComment.setUser(user);
 		blogComment.setCommentDate(LocalDate.now());
 		if (blogCommentDao.saveComment(blogComment)) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
